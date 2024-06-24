@@ -1,21 +1,15 @@
-import React from 'react'
+import React from 'react';
+import './Result.css';
 
-export default function Result(props) {
-
-  let result=props.props[0]
-  let color=props.props[1]
-
-  let resultStyle={
-    background: color?"#ba0fc9":"#ebffb4"
-  }
-  let handleRestart=()=>{
-    window.location.reload()
-  }
+const Result = ({ score, total, resetQuiz }) => {
+  const percentage = (score / total) * 100;
   return (
-    <div className='result-box' style={resultStyle}>
-      <h1>Final Results</h1>
-      <h2>{result} out of 5 correct - {(result/5)*100}.00%</h2>
-      <button className='restart' onClick={handleRestart}>Restart game</button>
+    <div className="result">
+      <h2>Quiz Completed</h2>
+      <p>Your score is {percentage}%</p>
+      <button onClick={resetQuiz}>Reset Quiz</button>
     </div>
-  )
-}
+  );
+};
+
+export default Result;

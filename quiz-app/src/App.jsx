@@ -1,42 +1,54 @@
-import React, { useEffect, useState } from "react";
-import "./App.css";
-import QuestionBox from "./components/QuestionBox";
+import React, { useState } from 'react';
+import QuestionBox from './components/QuestionBox';
+import Result from './components/Result';
+import questions from './questions';
+import './App.css';
 
+const App = () => {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
-
-function App() {
-  const[theme,setTheme]=useState(true)
-  const[themeName,setThemeName]=useState("Light")
-
-  const background={
-    background:theme?"#e7eaf6":"#222831",
-    color:theme?"#000":"#fff",
-    width:"100vw",
-    height:"100vh",
-  }
-
-  useEffect(()=>{
-    if(themeName=="Dark"){
-      setThemeName("Light")
+  const handleAnswer = (isCorrect) => {
+    if (isCorrect) {
+      setScore(score + 1);
     }
-    else{
-      setThemeName("Dark")
+    const nextQuestion = currentQuestion + 1;
+    if (nextQuestion < questions.length) {
+      setCurrentQuestion(nextQuestion);
+    } else {
+      setShowResult(true);
     }
-  },[theme])
-  let handleTheme=()=>{
-    setTheme(!theme)
-   }
+  };
 
+  const toggleMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+  const resetQuiz = () => {
+    setCurrentQuestion(0);
+    setScore(0);
+    setShowResult(false);
+  };
 
   return (
-    <div style={background} className="container">
-      <div className="header">
-        <h1>Quiz App</h1>
-        <button onClick={handleTheme} className="themeBtn">{themeName}</button>
-      </div>
-      <QuestionBox props={theme} />
+    <div className={darkMode ? 'dark-mode' : 'light-mode'}>
+      <button onClick={toggleMode}>
+        {darkMode ? 'Light Mode' : 'Dark Mode'}
+      </button>
+      {showResult ? (
+        <Result score={score} total={questions.length} resetQuiz={resetQuiz} />
+      ) : (
+        <QuestionBox
+          question={questions[currentQuestion]}
+          questionNumber={currentQuestion + 1}
+          totalQuestions={questions.length}
+          handleAnswer={handleAnswer}
+        />
+      )}
     </div>
   );
-}
+};
 
 export default App;

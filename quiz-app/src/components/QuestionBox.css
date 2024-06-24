@@ -1,0 +1,35 @@
+.question-box {
+    padding: 20px;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  .question-box h2 {
+    margin: 0 0 10px;
+  }
+  
+  .question-box p {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  .highlighted {
+    color: red;
+  }
+  
+  .question-box button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .question-box button:hover {
+    opacity: 0.8;
+  }
+  

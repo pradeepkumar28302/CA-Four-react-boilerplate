@@ -1,45 +1,29 @@
-import React, { useState } from 'react'
-import questions from '../questions.js'
-import Result from './Result'
+import React, { useState } from 'react';
+import './QuestionBox.css';
 
-export default function QuestionBox(props) {
-  let color=props.props
-  let[highlight,setHighlight]=useState(false)
-  let css={
-    background:color?"#a020f0":"#ffffba",
-  }
-  
-  let highlightStyle={
-    color:highlight?"red":"black"
-  }
+const QuestionBox = ({ question, questionNumber, totalQuestions, handleAnswer }) => {
+  const [highlighted, setHighlighted] = useState(false);
 
-  let[questionNo,setquestionNo]=useState(0)
-  let[score,setScore]=useState(0)
-
-  let handleOption=(e)=>{
-    console.log(e.target.value)
-    setScore((e.target.value==='true'?score+1:score))
-    setquestionNo(questionNo+1)
-  }
+  const toggleHighlight = () => {
+    setHighlighted(!highlighted);
+  };
 
   return (
-    <>
-      {questionNo <5 ?(
-        <div className='question-box' style={css}>
-          <h2>Question: {questionNo+1}</h2>
-          <h3 style={highlightStyle}>{questions[questionNo]}</h3>
-          <div className='option-box'>
-            {questions[questionNo].options.map((e)=>(
-              <button className='options' value={e.isCorrect} key={e.id} onClick={handleOption}>{e}</button>
-            ))}
-          </div>
-          <div>
-            <button className='highlight-button' onClick={()=>setHighlight(true)}>Highlight</button>
-            <button className='highlight-button' onClick={()=>setHighlight(false)}>Remove Highlight</button>
-          </div>
-        </div>
-      ):(<Result props={[score,color]}/>)
-    }
-    </>
-  )
-}
+    <div className="question-box">
+      <h2>Question {questionNumber} of {totalQuestions}</h2>
+      <p className={highlighted ? 'highlighted' : ''}>{question.text}</p>
+      <div>
+        {question.options.map((option) => (
+          <button key={option.id} onClick={() => handleAnswer(option.isCorrect)}>
+            {option.text}
+          </button>
+        ))}
+      </div>
+      <button onClick={toggleHighlight}>
+        {highlighted ? 'Remove Highlight' : 'Highlight'}
+      </button>
+    </div>
+  );
+};
+
+export default QuestionBox;
